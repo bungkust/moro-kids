@@ -24,12 +24,13 @@
 }
 
 /* Selected State */
+/* Selected State */
 .card-selected {
-    background-color: #F0F9E5;
-    /* Light Green (Secondary Light) */
-    border-color: var(--secondary);
-    border-bottom-color: var(--secondary-dark);
-    color: var(--secondary-dark);
+    background-color: #E6F8FE;
+    /* Soft Blue (Primary Light) */
+    border-color: var(--primary);
+    border-bottom-color: var(--primary-dark);
+    color: var(--primary-dark);
 }
 
 /* Correct State */

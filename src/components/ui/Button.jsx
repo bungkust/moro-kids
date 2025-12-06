@@ -1,19 +1,32 @@
 import React from 'react';
 import clsx from 'clsx';
+import { playSound } from '../../utils/sound';
 import './Button.css';
 
 const Button = ({
     variant = 'primary',
     size = 'md',
     fullWidth = false,
-    icon,
+    icon: Icon,
     children,
     className,
     disabled,
     onClick,
+    sound = 'pop',
     ...props
 }) => {
-    const isLocked = variant === 'locked';
+
+    const handleClick = (e) => {
+        if (disabled) return;
+
+        if (sound) {
+            playSound(sound);
+        }
+
+        if (onClick) {
+            onClick(e);
+        }
+    };
 
     return (
         <button
@@ -21,14 +34,14 @@ const Button = ({
                 'btn',
                 `btn-${variant}`,
                 `btn-${size}`,
-                fullWidth && 'btn-full',
+                { 'btn-full': fullWidth },
                 className
             )}
-            disabled={disabled || isLocked}
-            onClick={onClick}
+            disabled={disabled}
+            onClick={handleClick}
             {...props}
         >
-            {icon && <span className="btn-icon">{icon}</span>}
+            {Icon && <Icon size={24} weight="bold" className="btn-icon" />}
             {children}
         </button>
     );

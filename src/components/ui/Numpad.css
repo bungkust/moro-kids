@@ -1,0 +1,14 @@
+.numpad-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    width: 100%;
+    max-width: 320px;
+    /* Limit width for better aesthetics */
+    margin: 0 auto;
+}
+
+.numpad-grid button {
+    font-size: 24px;
+    /* Larger font for numbers */
+}

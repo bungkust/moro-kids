@@ -1,9 +1,14 @@
 import React from 'react'
-import UITest from '@/pages/UITest'
+import { Routes, Route } from 'react-router-dom'
+import QuizScreen from '@/pages/QuizScreen'
+import Playground from '@/pages/Playground'
 
 function App() {
   return (
-    <UITest />
+    <Routes>
+      <Route path="/" element={<QuizScreen />} />
+      <Route path="/playground" element={<Playground />} />
+    </Routes>
   )
 }
 

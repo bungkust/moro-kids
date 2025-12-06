@@ -1,0 +1,99 @@
+.slider-container {
+    width: 100%;
+    padding: 40px 20px;
+    /* More padding for labels */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    touch-action: none;
+    /* Prevent scrolling while dragging */
+}
+
+.slider-track {
+    width: 100%;
+    height: 8px;
+    /* Requested 8px */
+    background-color: var(--c-grey);
+    border-radius: 4px;
+    position: relative;
+}
+
+.slider-tick {
+    width: 2px;
+    height: 16px;
+    background-color: var(--c-grey-dark);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.slider-tick-label {
+    position: absolute;
+    top: 20px;
+    /* Below the tick */
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    color: var(--c-grey-dark);
+    font-size: 14px;
+}
+
+.slider-handle {
+    width: 32px;
+    /* Requested 32px */
+    height: 32px;
+    /* Requested 32px */
+    background-color: var(--c-blue);
+    /* Requested Blue */
+    border: 4px solid white;
+    /* Requested white border */
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin-top: -16px;
+    /* Center vertically (half of 32px) */
+    margin-left: -16px;
+    /* Center horizontally (half of 32px) */
+    /* Initial position, will be controlled by motion */
+    /* transform: translate(-50%, -50%);  Handled by framer-motion */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    /* Shadow */
+    cursor: grab;
+    display: flex;
+    justify-content: center;
+    z-index: 10;
+}
+
+.slider-handle:active {
+    cursor: grabbing;
+    transform: scale(1.1);
+}
+
+.slider-tooltip {
+    position: absolute;
+    bottom: 100%;
+    margin-bottom: 12px;
+    background-color: var(--c-blue-dark);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.slider-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: var(--c-blue-dark) transparent transparent transparent;
+}

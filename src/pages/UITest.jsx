@@ -3,13 +3,26 @@ import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import ProgressBar from '@/components/ui/ProgressBar';
 import FeedbackSheet from '@/components/ui/FeedbackSheet';
+import Slider from '@/components/ui/Slider';
+import Numpad from '@/components/ui/Numpad';
+import Mascot from '@/components/ui/Mascot';
 import GameLayout from '@/components/layout/GameLayout';
 
 const UITest = () => {
     const [feedbackStatus, setFeedbackStatus] = useState(null); // 'correct', 'wrong', or null
+    const [sliderValue, setSliderValue] = useState(5);
+    const [numpadValue, setNumpadValue] = useState('');
 
     const handleCloseFeedback = () => {
         setFeedbackStatus(null);
+    };
+
+    const handleNumpadPress = (val) => {
+        if (val === 'DEL') {
+            setNumpadValue(prev => prev.slice(0, -1));
+        } else {
+            setNumpadValue(prev => prev + val);
+        }
     };
 
     return (
@@ -41,6 +54,30 @@ const UITest = () => {
                         <Button variant="danger">Danger Button</Button>
                         <Button variant="outline">Outline Button</Button>
                         <Button variant="locked">Locked Button</Button>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Slider</h3>
+                    <div style={{ padding: '0 20px' }}>
+                        <Slider min={0} max={10} value={sliderValue} onChange={setSliderValue} />
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Numpad</h3>
+                    <div style={{ padding: '0 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+                        <div style={{ fontSize: '24px', fontWeight: 'bold', minHeight: '36px' }}>
+                            Input: {numpadValue}
+                        </div>
+                        <Numpad onPress={handleNumpadPress} />
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Mascot</h3>
+                    <div style={{ padding: '20px', display: 'flex', justifyContent: 'center' }}>
+                        <Mascot emotion="happy" width={120} />
                     </div>
                 </section>
 
