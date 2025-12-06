@@ -1,0 +1,52 @@
+.game-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: transparent;
+    /* Transparent to show gradient */
+    max-width: 480px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.game-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--c-grey-dark);
+    padding: 4px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.close-button:hover {
+    background-color: var(--c-grey);
+}
+
+.game-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.game-footer {
+    padding: 16px 24px;
+    border-top: 2px solid var(--c-grey);
+    background-color: #F5F7FA;
+    /* Match the bottom of the gradient */
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+}

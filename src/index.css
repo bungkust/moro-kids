@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;700;800&display=swap');
+
+:root {
+  /* Colors - Smoother Palette */
+  --c-green: #7AC70C;
+  --c-green-dark: #5FA005;
+  --c-blue: #38C6F4;
+  --c-blue-dark: #1DA0D1;
+  --c-red: #FF5E5E;
+  --c-red-dark: #E04848;
+  --c-white: #FFFFFF;
+  --c-grey: #F0F2F5;
+  --c-grey-dark: #D6DCE5;
+  --c-text: #4B4B4B;
+
+  /* Semantic Colors (Swapped: Primary=Blue, Secondary=Green) */
+  --primary: var(--c-blue);
+  --primary-dark: var(--c-blue-dark);
+  --secondary: var(--c-green);
+  --secondary-dark: var(--c-green-dark);
+
+  /* Radius */
+  --radius-md: 12px;
+  --radius-lg: 16px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(180deg, #E0F7FF 0%, #F0F2F5 100%);
+  background-attachment: fixed;
+  /* Ensures gradient covers full height on scroll */
+  min-height: 100vh;
+  font-family: 'Nunito', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+/* Utility Classes */
+.app-container {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: transparent;
+  /* Transparent to show body gradient */
+  position: relative;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.animate-pop {
+  animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.9);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pressable:active {
+  transform: scale(0.95);
+  transition: transform 0.1s;
+}

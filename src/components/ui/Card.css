@@ -1,0 +1,51 @@
+.card {
+    background-color: var(--c-white);
+    border: 2px solid var(--c-grey);
+    border-bottom: 4px solid var(--c-grey-dark);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    cursor: pointer;
+    transition: transform 0.1s, background-color 0.2s, border-color 0.2s;
+    position: relative;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    /* Bold */
+    color: var(--c-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+}
+
+.card:active {
+    transform: scale(0.95);
+}
+
+/* Selected State */
+.card-selected {
+    background-color: #F0F9E5;
+    /* Light Green (Secondary Light) */
+    border-color: var(--secondary);
+    border-bottom-color: var(--secondary-dark);
+    color: var(--secondary-dark);
+}
+
+/* Correct State */
+.card-correct {
+    background-color: #F0F9E5;
+    /* Smoother Light Green */
+    border-color: var(--c-green);
+    border-bottom-color: var(--c-green-dark);
+    color: var(--c-green-dark);
+}
+
+/* Wrong State */
+.card-wrong {
+    background-color: #FFEEEE;
+    /* Smoother Light Red */
+    border-color: var(--c-red);
+    border-bottom-color: var(--c-red-dark);
+    color: var(--c-red);
+}
