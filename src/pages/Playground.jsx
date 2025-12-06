@@ -8,7 +8,15 @@ import Numpad from '@/components/ui/Numpad';
 import LetterGrid from '@/components/ui/LetterGrid';
 import Mascot from '@/components/ui/Mascot';
 
+import useStore from '@/store/useStore';
+import useTTS from '@/hooks/useTTS';
+import Select from '@/components/ui/Select';
+
 const Playground = () => {
+    // Global State
+    const { preferences, toggleSound, toggleMusic } = useStore();
+    const { speak, voices } = useTTS();
+
     // State for interactive components
     const [selectedCard, setSelectedCard] = useState(null);
     const [sliderValue, setSliderValue] = useState(5);
@@ -17,6 +25,14 @@ const Playground = () => {
     const [letterOutput, setLetterOutput] = useState('');
     const [mascotEmotion, setMascotEmotion] = useState('idle');
     const [feedbackStatus, setFeedbackStatus] = useState(null);
+    const [ttsInput, setTtsInput] = useState('Halo, aku Moro!');
+    const [selectedVoiceName, setSelectedVoiceName] = useState('');
+
+    // Handlers
+    const handleSpeak = () => {
+        const voice = voices.find(v => v.name === selectedVoiceName);
+        speak(ttsInput, voice);
+    };
 
     // Handlers
     const handleNumpadPress = (val) => {
@@ -34,6 +50,61 @@ const Playground = () => {
     return (
         <div style={{ padding: '20px', paddingBottom: '100px', minHeight: '100vh' }}>
             <h1 style={{ color: 'var(--c-text)', marginBottom: '24px' }}>UI Design System v1.0</h1>
+
+            {/* Audio & Settings */}
+            <section style={{ marginBottom: '32px', padding: '16px', background: 'white', borderRadius: '16px', border: '2px solid var(--c-grey)' }}>
+                <h3 style={{ color: 'var(--c-text)', marginBottom: '16px' }}>Audio & Settings</h3>
+
+                <div style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}>
+                    <Button
+                        variant={preferences.sound ? "primary" : "secondary"}
+                        onClick={toggleSound}
+                    >
+                        Sound: {preferences.sound ? "ON" : "OFF"}
+                    </Button>
+                    <Button
+                        variant={preferences.music ? "primary" : "secondary"}
+                        onClick={toggleMusic}
+                    >
+                        Music: {preferences.music ? "ON" : "OFF"}
+                    </Button>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    <label style={{ fontWeight: 'bold', color: 'var(--c-text)' }}>Test Text-to-Speech (TTS):</label>
+
+                    {/* Voice Selector */}
+                    <Select
+                        options={[
+                            { value: '', label: '-- Default Indonesian --' },
+                            ...voices.map(v => ({ value: v.name, label: `${v.name} (${v.lang})` }))
+                        ]}
+                        value={selectedVoiceName}
+                        onChange={setSelectedVoiceName}
+                        placeholder="Select Voice"
+                    />
+
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                        <input
+                            type="text"
+                            value={ttsInput}
+                            onChange={(e) => setTtsInput(e.target.value)}
+                            style={{
+                                flex: 1,
+                                padding: '12px',
+                                borderRadius: '12px',
+                                border: '2px solid var(--c-grey)',
+                                fontSize: '16px',
+                                fontFamily: 'Nunito'
+                            }}
+                        />
+                        <Button onClick={handleSpeak}>Speak</Button>
+                    </div>
+                    <p style={{ fontSize: '12px', color: 'var(--c-grey-dark)' }}>
+                        *TTS will only work if Sound is ON.
+                    </p>
+                </div>
+            </section>
 
             {/* Progress Bar */}
             <section style={{ marginBottom: '32px' }}>
@@ -67,6 +138,24 @@ const Playground = () => {
                             Card {id}
                         </Card>
                     ))}
+                </div>
+            </section>
+
+            {/* Select Input */}
+            <section style={{ marginBottom: '32px' }}>
+                <h3 style={{ color: 'var(--c-text)', marginBottom: '12px' }}>Select / Dropdown</h3>
+                <div style={{ maxWidth: '300px' }}>
+                    <Select
+                        options={[
+                            { value: 'apple', label: '🍎 Apple' },
+                            { value: 'banana', label: '🍌 Banana' },
+                            { value: 'cherry', label: '🍒 Cherry' },
+                            { value: 'date', label: '📅 Date' },
+                        ]}
+                        value={null} // Just a demo, no state needed for visual check or use a dummy state if needed
+                        onChange={(val) => console.log('Selected:', val)}
+                        placeholder="Choose a fruit..."
+                    />
                 </div>
             </section>
 
