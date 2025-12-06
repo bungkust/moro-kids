@@ -31,3 +31,14 @@ export const updateUserStats = async (userId, statsObj) => {
     await db.users.update(userId, statsObj);
     return await db.users.get(userId);
 };
+
+export const logProgress = async (logData) => {
+    // logData: { user_id, question_id, type, is_correct, score_gained }
+    const log = {
+        ...logData,
+        timestamp: new Date().toISOString(),
+        is_synced: 0
+    };
+    await db.progress_logs.add(log);
+    return log;
+};

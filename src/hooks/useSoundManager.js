@@ -6,22 +6,22 @@ import useStore from '../store/useStore';
 const sounds = {
     pop: new Howl({
         src: ['/src/assets/sounds/Pop.mp3'],
-        html5: true,
+        html5: false,
         volume: 0.5
     }),
     correct: new Howl({
         src: ['/src/assets/sounds/correct.mp3'],
-        html5: true,
+        html5: false,
         volume: 0.6
     }),
     wrong: new Howl({
         src: ['/src/assets/sounds/Wrong.mp3'],
-        html5: true,
+        html5: false,
         volume: 0.5
     }),
     win: new Howl({
         src: ['/src/assets/sounds/Win.mp3'],
-        html5: true,
+        html5: false,
         volume: 0.7
     })
 };

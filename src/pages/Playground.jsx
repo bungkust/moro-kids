@@ -10,12 +10,18 @@ import Mascot from '@/components/ui/Mascot';
 
 import useStore from '@/store/useStore';
 import useTTS from '@/hooks/useTTS';
+import useSoundManager from '@/hooks/useSoundManager';
 import Select from '@/components/ui/Select';
+import MultipleChoice from '@/components/game/MultipleChoice';
+import NumericInput from '@/components/game/NumericInput';
+import EquationBuilder from '@/components/game/EquationBuilder';
+import MatchingPairs from '@/components/game/MatchingPairs';
 
 const Playground = () => {
     // Global State
     const { preferences, toggleSound, toggleMusic } = useStore();
     const { speak, voices } = useTTS();
+    const { play } = useSoundManager(); // Import play directly
 
     // State for interactive components
     const [selectedCard, setSelectedCard] = useState(null);
@@ -28,13 +34,19 @@ const Playground = () => {
     const [ttsInput, setTtsInput] = useState('Halo, aku Moro!');
     const [selectedVoiceName, setSelectedVoiceName] = useState('');
 
+    // Game Component States
+    const [mcAnswer, setMcAnswer] = useState(null);
+    const [numAnswer, setNumAnswer] = useState('');
+    const [builderAnswer, setBuilderAnswer] = useState([]);
+    const [matchingAnswer, setMatchingAnswer] = useState(null);
+    const [readingAnswer, setReadingAnswer] = useState([]);
+
     // Handlers
     const handleSpeak = () => {
         const voice = voices.find(v => v.name === selectedVoiceName);
         speak(ttsInput, voice);
     };
 
-    // Handlers
     const handleNumpadPress = (val) => {
         if (val === 'DEL') {
             setNumpadOutput((prev) => prev.slice(0, -1));
@@ -45,6 +57,61 @@ const Playground = () => {
 
     const handleCloseFeedback = () => {
         setFeedbackStatus(null);
+    };
+
+    // Game Validation Helpers
+    const checkMC = () => {
+        if (mcAnswer === 'opt2') {
+            setFeedbackStatus('correct');
+            play('correct');
+        } else {
+            setFeedbackStatus('wrong');
+            play('wrong');
+        }
+    };
+
+    const checkNum = () => {
+        if (numAnswer === '8') {
+            setFeedbackStatus('correct');
+            play('correct');
+        } else {
+            setFeedbackStatus('wrong');
+            play('wrong');
+        }
+    };
+
+    const checkBuilder = () => {
+        const correct = ['B', 'U', 'K', 'U'];
+        const isCorrect = builderAnswer.length === correct.length && builderAnswer.every((v, i) => v === correct[i]);
+        if (isCorrect) {
+            setFeedbackStatus('correct');
+            play('correct');
+        } else {
+            setFeedbackStatus('wrong');
+            play('wrong');
+        }
+    };
+
+    const checkMatching = () => {
+        if (matchingAnswer === true) {
+            setFeedbackStatus('correct');
+            play('correct');
+        } else {
+            setFeedbackStatus('wrong');
+            play('wrong');
+        }
+    };
+
+    const checkReading = () => {
+        const correct = ['B', 'O', 'L', 'A'];
+        const isCorrect = readingAnswer.length === correct.length && readingAnswer.every((v, i) => v === correct[i]);
+        if (isCorrect) {
+            setFeedbackStatus('correct');
+            play('correct');
+        } else {
+            setFeedbackStatus('wrong');
+            play('wrong');
+        }
     };
 
     return (
@@ -261,6 +328,104 @@ const Playground = () => {
                         Trigger Lose
                     </Button>
                 </div>
+            </section>
+
+            {/* Game Engine Test */}
+            <section style={{ marginBottom: '48px' }}>
+                <h2 style={{ color: 'var(--c-text)', marginBottom: '24px', textAlign: 'center' }}>🎮 Game Engine Test</h2>
+
+                {/* 1. Multiple Choice */}
+                <div style={{ marginBottom: '40px' }}>
+                    <h3 style={{ marginBottom: '16px' }}>1. Multiple Choice (Ans: Apple)</h3>
+                    <MultipleChoice
+                        question={{
+                            text_en: 'Which fruit is red?',
+                            text_id: 'Buah mana yang berwarna merah?',
+                            options: [
+                                { id: 'opt1', text: 'Banana', image: null },
+                                { id: 'opt2', text: 'Apple', image: null },
+                                { id: 'opt3', text: 'Grape', image: null },
+                            ]
+                        }}
+                        selectedAnswer={mcAnswer}
+                        onAnswer={setMcAnswer}
+                    />
+                    <div style={{ marginTop: '16px', textAlign: 'center' }}>
+                        <Button onClick={checkMC} disabled={!mcAnswer}>Check Answer</Button>
+                    </div>
+                </div>
+
+                {/* 2. Numeric Input */}
+                <div style={{ marginBottom: '40px' }}>
+                    <h3 style={{ marginBottom: '16px' }}>2. Numeric Input (Ans: 8)</h3>
+                    <NumericInput
+                        question={{
+                            text_en: '5 + 3 = ?',
+                            text_id: '5 + 3 = ?'
+                        }}
+                        currentValue={numAnswer}
+                        onAnswer={setNumAnswer}
+                    />
+                    <div style={{ marginTop: '16px', textAlign: 'center' }}>
+                        <Button onClick={checkNum} disabled={!numAnswer}>Check Answer</Button>
+                    </div>
+                </div>
+
+                {/* 3. Equation Builder */}
+                <div style={{ marginBottom: '40px' }}>
+                    <h3 style={{ marginBottom: '16px' }}>3. Equation Builder (Ans: BUKU)</h3>
+                    <EquationBuilder
+                        question={{
+                            pool: ['K', 'U', 'B', 'A', 'U', 'M']
+                        }}
+                        currentValue={builderAnswer}
+                        onAnswer={setBuilderAnswer}
+                    />
+                    <div style={{ marginTop: '16px', textAlign: 'center' }}>
+                        <Button onClick={checkBuilder} disabled={builderAnswer.length === 0}>Check Answer</Button>
+                    </div>
+                </div>
+
+                {/* 4. Matching Pairs */}
+                <div style={{ marginBottom: '40px' }}>
+                    <h3 style={{ marginBottom: '16px' }}>4. Matching Pairs (Auto-check)</h3>
+                    <MatchingPairs
+                        question={{
+                            text_en: 'Match the pairs',
+                            text_id: 'Cocokkan pasangan',
+                            pairs: [
+                                { id: 'p1', items: [{ content: '🐱' }, { content: 'Cat' }] },
+                                { id: 'p2', items: [{ content: '🐶' }, { content: 'Dog' }] }
+                            ]
+                        }}
+                        onAnswer={(val) => {
+                            setMatchingAnswer(val);
+                            if (val === true) {
+                                setFeedbackStatus('correct');
+                                play('correct');
+                            }
+                        }}
+                    />
+                    <p style={{ textAlign: 'center', fontSize: '14px', color: 'var(--c-grey-dark)', marginTop: '8px' }}>
+                        *Game finishes automatically when all matched
+                    </p>
+                </div>
+
+                {/* 5. Reading (Spelling) */}
+                <div style={{ marginBottom: '40px' }}>
+                    <h3 style={{ marginBottom: '16px' }}>5. Reading / Spelling (Ans: BOLA)</h3>
+                    <EquationBuilder
+                        question={{
+                            pool: ['L', 'A', 'B', 'O', 'K', 'U']
+                        }}
+                        currentValue={readingAnswer}
+                        onAnswer={setReadingAnswer}
+                    />
+                    <div style={{ marginTop: '16px', textAlign: 'center' }}>
+                        <Button onClick={checkReading} disabled={readingAnswer.length === 0}>Check Answer</Button>
+                    </div>
+                </div>
+
             </section>
 
             {/* Feedback Sheet */}
