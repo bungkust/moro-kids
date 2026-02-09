@@ -207,13 +207,13 @@ const GameScreen = () => {
             setStatus('idle');
         } else {
             // Game Over / Result
-            navigate('/dashboard'); // Temporary redirect
+            navigate('/playground'); // Temporary redirect
         }
     };
 
     const handleExit = () => {
         if (window.confirm(t('Are you sure you want to quit?'))) {
-            navigate('/dashboard');
+            navigate('/playground');
         }
     };
 

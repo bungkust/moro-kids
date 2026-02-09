@@ -38,8 +38,13 @@ const QuizScreen = () => {
                     <div style={{ fontWeight: 'bold', color: 'var(--c-text)' }}>
                         Lives: {lives} ❤️
                     </div>
-                    <div style={{ fontWeight: 'bold', color: 'var(--primary)' }}>
-                        Score: {score}
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                        <Button size="sm" variant="outline" onClick={() => window.location.hash = '#/playground'}>
+                            UI Kit
+                        </Button>
+                        <Button size="sm" variant="primary" onClick={() => window.location.hash = '#/game'}>
+                            New Game
+                        </Button>
                     </div>
                 </div>
             }

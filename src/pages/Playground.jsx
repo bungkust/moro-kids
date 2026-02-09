@@ -116,7 +116,15 @@ const Playground = () => {
 
     return (
         <div style={{ padding: '20px', paddingBottom: '100px', minHeight: '100vh' }}>
-            <h1 style={{ color: 'var(--c-text)', marginBottom: '24px' }}>UI Design System v1.0</h1>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                <h1 style={{ color: 'var(--c-text)', margin: 0 }}>UI Design System v1.0</h1>
+                <Button
+                    variant="primary"
+                    onClick={() => window.location.hash = '#/game'}
+                >
+                    🚀 Start Full Game Loop
+                </Button>
+            </div>
 
             {/* Audio & Settings */}
             <section style={{ marginBottom: '32px', padding: '16px', background: 'white', borderRadius: '16px', border: '2px solid var(--c-grey)' }}>
